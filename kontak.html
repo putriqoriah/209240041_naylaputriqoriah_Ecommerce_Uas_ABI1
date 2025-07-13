@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kontak - Toko Bunga & Cake</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="logo">Toko Bunga & Cake</div>
+
+      <input type="checkbox" id="menu-toggle" />
+      <label for="menu-toggle" class="hamburger">&#9776;</label>
+
+      <nav class="navbar">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="produk.html">Produk</a></li>
+          <li><a href="kontak.html">Kontak</a></li>
+          <li>
+            <a href="keranjang.html"
+              >Keranjang (<span id="cart-count">0</span>)</a
+            >
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <section class="kontak-container">
+        <h2>Hubungi Kami</h2>
+        <form class="form-kontak">
+          <label for="nama">Nama:</label>
+          <input
+            type="text"
+            id="nama"
+            name="nama"
+            placeholder="Nama Anda"
+            required
+          />
+
+          <label for="email">Email:</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            placeholder="email@anda.com"
+            required
+          />
+
+          <label for="pesan">Pesan:</label>
+          <textarea
+            id="pesan"
+            name="pesan"
+            rows="5"
+            placeholder="Tulis pesan Anda di sini..."
+            required
+          ></textarea>
+
+          <button type="submit" disabled>Kirim</button>
+          <p class="note">* Formulir ini tidak aktif, hanya untuk tampilan.</p>
+        </form>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        📍 Jl. Bunisari No 188B, Bandung| 📞 0895-2466-0539| 📧
+        tokobungacake@email.com
+      </p>
+    </footer>
+  </body>
+  <script src="keranjang.js"></script>
+  <script>
+    function updateHarga() {
+      const select = document.getElementById("ukuran");
+      const harga = select.options[select.selectedIndex].dataset.harga;
+      document.getElementById("harga-produk").textContent =
+        "Rp " + Number(harga).toLocaleString();
+    }
+
+    function tambahKeKeranjang() {
+      const nama = "Kue Coklat Lumer";
+      const select = document.getElementById("ukuran");
+      const ukuran = select.value;
+      const harga = parseInt(
+        select.options[select.selectedIndex].dataset.harga
+      );
+
+      const item = { nama, ukuran, harga, jumlah: 1 };
+      let keranjang = JSON.parse(localStorage.getItem("keranjang")) || [];
+
+      const existing = keranjang.find(
+        (p) => p.nama === nama && p.ukuran === ukuran
+      );
+      if (existing) {
+        existing.jumlah += 1;
+      } else {
+        keranjang.push(item);
+      }
+
+      localStorage.setItem("keranjang", JSON.stringify(keranjang));
+      updateCartCount();
+      alert("Produk ditambahkan ke keranjang!");
+    }
+
+    function updateCartCount() {
+      const keranjang = JSON.parse(localStorage.getItem("keranjang")) || [];
+      const total = keranjang.reduce((sum, item) => sum + item.jumlah, 0);
+      document.getElementById("cart-count").textContent = total;
+    }
+
+    updateHarga();
+    updateCartCount();
+  </script>
+  <script>
+    // Hamburger toggle
+    function toggleMenu() {
+      const nav = document.getElementById("nav-menu");
+      nav.classList.toggle("active");
+    }
+
+    function updateCartCount() {
+      const keranjang = JSON.parse(localStorage.getItem("keranjang")) || [];
+      const total = keranjang.reduce((sum, item) => sum + item.jumlah, 0);
+      document.getElementById("cart-count").textContent = total;
+    }
+    updateCartCount();
+  </script>
+</html>

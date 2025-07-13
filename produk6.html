@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kombinasi Kue & Bunga</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="logo">Toko Bunga & Cake</div>
+
+      <input type="checkbox" id="menu-toggle" />
+      <label for="menu-toggle" class="hamburger">&#9776;</label>
+
+      <nav class="navbar">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="produk.html">Produk</a></li>
+          <li><a href="kontak.html">Kontak</a></li>
+          <li>
+            <a href="keranjang.html"
+              >Keranjang (<span id="cart-count">0</span>)</a
+            >
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="detail-produk">
+      <div class="produk-container">
+        <div class="produk-gambar">
+          <img src="Img_6.jpg" alt="Kombinasi Kue & Bunga" />
+        </div>
+        <div class="produk-info">
+          <h2>Kombinasi Kue & Bunga</h2>
+          <p class="deskripsi">
+            Paket spesial berisi kue lezat dan rangkaian bunga segar. Hadiah
+            sempurna untuk ulang tahun, anniversary, atau kejutan romantis
+            lainnya.
+          </p>
+
+          <label for="pilihan">Pilih Paket:</label>
+          <select id="pilihan" onchange="updateHarga()">
+            <option value="Kue 14cm + 10 Tangkai" data-harga="130000">
+              Kue 14cm + 3 Tangkai - Rp 130.000
+            </option>
+            <option value="Kue 16cm + 20 Tangkai" data-harga="180000" selected>
+              Kue 16cm + 7 Tangkai - Rp 180.000
+            </option>
+            <option value="Kue 20cm + 50 Tangkai" data-harga="300000">
+              Kue 20cm + 15 Tangkai - Rp 300.000
+            </option>
+          </select>
+
+          <p class="harga">Harga: <span id="harga-produk">Rp 180.000</span></p>
+          <button onclick="tambahKeKeranjang()">Beli</button>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <p>
+        📍 Jl. Bunisari No 188B, Bandung| 📞 0895-2466-0539| 📧
+        tokobungacake@email.com
+      </p>
+    </footer>
+
+    <script>
+      function updateHarga() {
+        const select = document.getElementById("pilihan");
+        const harga = select.options[select.selectedIndex].dataset.harga;
+        document.getElementById("harga-produk").textContent =
+          "Rp " + Number(harga).toLocaleString();
+      }
+
+      function tambahKeKeranjang() {
+        const nama = "Kombinasi Kue & Bunga";
+        const select = document.getElementById("pilihan");
+        const ukuran = select.value;
+        const harga = parseInt(
+          select.options[select.selectedIndex].dataset.harga
+        );
+
+        const item = { nama, ukuran, harga, jumlah: 1 };
+        let keranjang = JSON.parse(localStorage.getItem("keranjang")) || [];
+
+        const existing = keranjang.find(
+          (p) => p.nama === nama && p.ukuran === ukuran
+        );
+        if (existing) {
+          existing.jumlah += 1;
+        } else {
+          keranjang.push(item);
+        }
+
+        localStorage.setItem("keranjang", JSON.stringify(keranjang));
+        updateCartCount();
+        alert("Produk ditambahkan ke keranjang!");
+      }
+
+      function updateCartCount() {
+        const keranjang = JSON.parse(localStorage.getItem("keranjang")) || [];
+        const total = keranjang.reduce((sum, item) => sum + item.jumlah, 0);
+        document.getElementById("cart-count").textContent = total;
+      }
+
+      updateHarga();
+      updateCartCount();
+    </script>
+    <script>
+      // Hamburger toggle
+      function toggleMenu() {
+        const nav = document.getElementById("nav-menu");
+        nav.classList.toggle("active");
+      }
+
+      function updateCartCount() {
+        const keranjang = JSON.parse(localStorage.getItem("keranjang")) || [];
+        const total = keranjang.reduce((sum, item) => sum + item.jumlah, 0);
+        document.getElementById("cart-count").textContent = total;
+      }
+      updateCartCount();
+    </script>
+  </body>
+</html>

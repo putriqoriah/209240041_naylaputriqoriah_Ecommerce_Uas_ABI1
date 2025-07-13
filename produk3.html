@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cupcake Ceria</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="logo">Toko Bunga & Cake</div>
+
+      <input type="checkbox" id="menu-toggle" />
+      <label for="menu-toggle" class="hamburger">&#9776;</label>
+
+      <nav class="navbar">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="produk.html">Produk</a></li>
+          <li><a href="kontak.html">Kontak</a></li>
+          <li>
+            <a href="keranjang.html"
+              >Keranjang (<span id="cart-count">0</span>)</a
+            >
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main class="detail-produk">
+      <div class="produk-container">
+        <div class="produk-gambar">
+          <img src="Img_3.jpg" alt="Cupcake Ceria" />
+        </div>
+        <div class="produk-info">
+          <h2>Cupcake Ceria</h2>
+          <p class="deskripsi">
+            Cupcake lucu dengan topping warna-warni yang cocok untuk acara ulang
+            tahun atau hadiah manis. Lembut, lezat, dan dibuat dengan bahan
+            berkualitas.
+          </p>
+
+          <label for="pilihan">Pilih Jumlah:</label>
+          <select id="pilihan" onchange="updateHarga()">
+            <option value="3pcs" data-harga="30000">3 pcs - Rp 30.000</option>
+            <option value="6pcs" data-harga="55000" selected>
+              6 pcs - Rp 55.000
+            </option>
+            <option value="9pcs" data-harga="80000">9 pcs - Rp 80.000</option>
+          </select>
+
+          <p class="harga">Harga: <span id="harga-produk">Rp 55.000</span></p>
+          <button onclick="tambahKeKeranjang()">Beli</button>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <p>
+        📍 Jl. Bunisari No 188B, Bandung| 📞 0895-2466-0539| 📧
+        tokobungacake@email.com
+      </p>
+    </footer>
+
+    <script>
+      function updateHarga() {
+        const select = document.getElementById("pilihan");
+        const harga = select.options[select.selectedIndex].dataset.harga;
+        document.getElementById("harga-produk").textContent =
+          "Rp " + Number(harga).toLocaleString();
+      }
+
+      function tambahKeKeranjang() {
+        const nama = "Cupcake Ceria";
+        const select = document.getElementById("pilihan");
+        const ukuran = select.value;
+        const harga = parseInt(
+          select.options[select.selectedIndex].dataset.harga
+        );
+
+        const item = { nama, ukuran, harga, jumlah: 1 };
+        let keranjang = JSON.parse(localStorage.getItem("keranjang")) || [];
+
+        const existing = keranjang.find(
+          (p) => p.nama === nama && p.ukuran === ukuran
+        );
+        if (existing) {
+          existing.jumlah += 1;
+        } else {
+          keranjang.push(item);
+        }
+
+        localStorage.setItem("keranjang", JSON.stringify(keranjang));
+        updateCartCount();
+        alert("Produk ditambahkan ke keranjang!");
+      }
+
+      function updateCartCount() {
+        const keranjang = JSON.parse(localStorage.getItem("keranjang")) || [];
+        const total = keranjang.reduce((sum, item) => sum + item.jumlah, 0);
+        document.getElementById("cart-count").textContent = total;
+      }
+
+      updateCartCount();
+    </script>
+    <script>
+      // Hamburger toggle
+      function toggleMenu() {
+        const nav = document.getElementById("nav-menu");
+        nav.classList.toggle("active");
+      }
+
+      // Update cart count
+      function updateCartCount() {
+        const cart = JSON.parse(localStorage.getItem("cart")) || [];
+        const total = cart.reduce((sum, item) => sum + item.quantity, 0);
+        const el = document.getElementById("cart-count");
+        if (el) el.textContent = total;
+      }
+
+      document.addEventListener("DOMContentLoaded", updateCartCount);
+    </script>
+  </body>
+</html>

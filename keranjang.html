@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Keranjang Belanja</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header class="header">
+      <div class="logo">Toko Bunga & Cake</div>
+      <input type="checkbox" id="menu-toggle" />
+      <label for="menu-toggle" class="hamburger">&#9776;</label>
+      <nav class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="produk.html">Produk</a>
+        <a href="kontak.html">Kontak</a>
+        <a href="keranjang.html">Keranjang (<span id="cart-count">0</span>)</a>
+      </nav>
+    </header>
+
+    <main class="keranjang-container">
+      <div id="daftar-keranjang"></div>
+      <div class="total-harga" id="total-harga">Total: Rp 0</div>
+
+      <div class="checkout-buttons">
+        <a href="#" id="checkout-wa" target="_blank">Checkout via WhatsApp</a>
+        <a href="https://www.instagram.com/putriqoriah" target="_blank"
+          >Checkout via Instagram</a
+        >
+      </div>
+    </main>
+    <footer>
+      <p>
+        📍 Jl. Bunisari No 188B, Bandung| 📞 0895-2466-0539| 📧
+        tokobungacake@email.com
+      </p>
+    </footer>
+    <script>
+      function tampilkanKeranjang() {
+        const keranjang = JSON.parse(localStorage.getItem("keranjang")) || [];
+        const daftar = document.getElementById("daftar-keranjang");
+        const totalBox = document.getElementById("total-harga");
+        let total = 0;
+        let pesan = "Halo, saya ingin memesan:\n";
+
+        daftar.innerHTML = "";
+
+        keranjang.forEach((item, i) => {
+          const div = document.createElement("div");
+          div.classList.add("item-keranjang");
+
+          div.innerHTML = `
+          <h3>${item.nama}</h3>
+          <p>Ukuran: ${item.ukuran}</p>
+          <p>Jumlah: ${item.jumlah}</p>
+          <p>Harga: Rp ${item.harga.toLocaleString()}</p>
+        `;
+
+          daftar.appendChild(div);
+
+          total += item.harga * item.jumlah;
+          pesan += `• ${item.nama} (${item.ukuran}) x${item.jumlah} - Rp ${
+            item.harga * item.jumlah
+          }\n`;
+        });
+
+        totalBox.textContent = "Total: Rp " + total.toLocaleString();
+        pesan += `\nTotal: Rp ${total.toLocaleString()}`;
+        const encoded = encodeURIComponent(pesan);
+
+        // Ganti nomor WhatsApp sesuai usahamu
+        const noWa = "6289524660539";
+        const waLink = `https://wa.me/${noWa}?text=${encoded}`;
+        document.getElementById("checkout-wa").href = waLink;
+      }
+
+      function updateCartCount() {
+        const keranjang = JSON.parse(localStorage.getItem("keranjang")) || [];
+        const total = keranjang.reduce((sum, item) => sum + item.jumlah, 0);
+        document.getElementById("cart-count").textContent = total;
+      }
+
+      tampilkanKeranjang();
+      updateCartCount();
+      document.getElementById("checkout-ig").addEventListener("click", () => {
+        // Ganti link ini dengan username IG toko kamu
+        window.open(
+          "https://www.instagram.com/nnaylaputrii?igsh=MTB3NWRqYnBheG04bA==",
+          "_blank"
+        );
+      });
+    </script>
+  </body>
+</html>

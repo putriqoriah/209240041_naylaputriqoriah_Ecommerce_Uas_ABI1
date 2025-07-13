@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lilin Ulang Tahun - Toko Bunga & Cake</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="grid-layout">
+      <header>
+        <div class="logo">Toko Bunga & Cake</div>
+
+        <input type="checkbox" id="menu-toggle" />
+        <label for="menu-toggle" class="hamburger">&#9776;</label>
+
+        <nav class="navbar">
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="produk.html">Produk</a></li>
+            <li><a href="kontak.html">Kontak</a></li>
+            <li>
+              <a href="keranjang.html"
+                >Keranjang (<span id="cart-count">0</span>)</a
+              >
+            </li>
+          </ul>
+        </nav>
+      </header>
+
+      <main>
+        <section class="detail-produk-grid">
+          <img src="Img_7.jpg" alt="Lilin Ulang Tahun" class="detail-img" />
+          <div class="detail-info">
+            <h2>Lilin Ulang Tahun</h2>
+            <p class="harga">Rp 25.000</p>
+            <p class="deskripsi">
+              Lilin ulang tahun warna-warni, aman dan tidak berasap. Satu set
+              isi 12 lilin dengan berbagai warna ceria.
+            </p>
+            <button
+              class="btn"
+              onclick="tambahKeKeranjang('kue1', 'Lilin Ulang Tahun', 25000, 'gambar/kue1.jpg')"
+            >
+              Beli
+            </button>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        <p>
+          📍 Jl. Bunisari No 188B, Bandung| 📞 0895-2466-0539| 📧
+          tokobungacake@email.com
+        </p>
+      </footer>
+    </div>
+  </body>
+  <script src="keranjang.js"></script>
+  <script>
+    function updateHarga() {
+      const select = document.getElementById("ukuran");
+      const harga = select.options[select.selectedIndex].dataset.harga;
+      document.getElementById("harga-produk").textContent =
+        "Rp " + Number(harga).toLocaleString();
+    }
+
+    function tambahKeKeranjang() {
+      const nama = "Bouquet Campuran";
+      const select = document.getElementById("ukuran");
+      const ukuran = select.value + " Tangkai";
+      const harga = parseInt(
+        select.options[select.selectedIndex].dataset.harga
+      );
+
+      const item = { nama, ukuran, harga, jumlah: 1 };
+      let keranjang = JSON.parse(localStorage.getItem("keranjang")) || [];
+
+      const existing = keranjang.find(
+        (p) => p.nama === nama && p.ukuran === ukuran
+      );
+      if (existing) {
+        existing.jumlah += 1;
+      } else {
+        keranjang.push(item);
+      }
+
+      localStorage.setItem("keranjang", JSON.stringify(keranjang));
+      updateCartCount();
+      alert("Produk ditambahkan ke keranjang!");
+    }
+
+    function updateCartCount() {
+      const keranjang = JSON.parse(localStorage.getItem("keranjang")) || [];
+      const total = keranjang.reduce((sum, item) => sum + item.jumlah, 0);
+      document.getElementById("cart-count").textContent = total;
+    }
+
+    updateHarga();
+    updateCartCount();
+  </script>
+  <script>
+    // Hamburger toggle
+    function toggleMenu() {
+      const nav = document.getElementById("nav-menu");
+      nav.classList.toggle("active");
+    }
+
+    // Update cart count
+    function updateCartCount() {
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+      const total = cart.reduce((sum, item) => sum + item.quantity, 0);
+      const el = document.getElementById("cart-count");
+      if (el) el.textContent = total;
+    }
+
+    document.addEventListener("DOMContentLoaded", updateCartCount);
+  </script>
+  <script>
+    // Hamburger toggle
+    function toggleMenu() {
+      const nav = document.getElementById("nav-menu");
+      nav.classList.toggle("active");
+    }
+
+    // Update cart count
+    function updateCartCount() {
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+      const total = cart.reduce((sum, item) => sum + item.quantity, 0);
+      const el = document.getElementById("cart-count");
+      if (el) el.textContent = total;
+    }
+
+    document.addEventListener("DOMContentLoaded", updateCartCount);
+  </script>
+  <script>
+    // Hamburger toggle
+    function toggleMenu() {
+      const nav = document.getElementById("nav-menu");
+      nav.classList.toggle("active");
+    }
+
+    // Update cart count
+    function updateCartCount() {
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+      const total = cart.reduce((sum, item) => sum + item.quantity, 0);
+      const el = document.getElementById("cart-count");
+      if (el) el.textContent = total;
+    }
+
+    document.addEventListener("DOMContentLoaded", updateCartCount);
+  </script>
+  <script>
+    // Hamburger toggle
+    function toggleMenu() {
+      const nav = document.getElementById("nav-menu");
+      nav.classList.toggle("active");
+    }
+
+    // Update cart count
+    function updateCartCount() {
+      const cart = JSON.parse(localStorage.getItem("cart")) || [];
+      const total = cart.reduce((sum, item) => sum + item.quantity, 0);
+      const el = document.getElementById("cart-count");
+      if (el) el.textContent = total;
+    }
+
+    document.addEventListener("DOMContentLoaded", updateCartCount);
+  </script>
+  <script>
+    // Hamburger toggle
+    function toggleMenu() {
+      const nav = document.getElementById("nav-menu");
+      nav.classList.toggle("active");
+    }
+
+    function updateCartCount() {
+      const keranjang = JSON.parse(localStorage.getItem("keranjang")) || [];
+      const total = keranjang.reduce((sum, item) => sum + item.jumlah, 0);
+      document.getElementById("cart-count").textContent = total;
+    }
+    updateCartCount();
+  </script>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Checkout</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="header-container">
+        <h1 class="logo">Toko Bunga & Cake</h1>
+
+        <nav id="navbar" class="nav-menu">
+          <a href="index.html">Home</a>
+          <a href="produk.html">Produk</a>
+          <a href="kontak.html">Kontak</a>
+          <a href="keranjang.html"
+            >Keranjang (<span id="cart-count">0</span>)</a
+          >
+        </nav>
+
+        <button id="hamburger" class="hamburger">&#9776;</button>
+      </div>
+    </header>
+
+    <main>
+      <h2 style="text-align: center">Checkout</h2>
+
+      <div class="keranjang-box" id="checkout-ringkasan"></div>
+
+      <div class="total-belanja" id="checkout-total">
+        Total: Rp <span id="total-belanja">0</span>
+      </div>
+
+      <form id="form-checkout" class="formulir">
+        <h3>Data Pembeli</h3>
+        <label for="nama">Nama Lengkap</label>
+        <input type="text" id="nama" required />
+
+        <label for="alamat">Alamat Pengiriman</label>
+        <textarea id="alamat" required></textarea>
+
+        <label for="metode">Metode Pembayaran</label>
+        <select id="metode" required>
+          <option value="">Pilih</option>
+          <option value="cod">COD (Bayar di Tempat)</option>
+          <option value="transfer">Transfer Bank</option>
+          <option value="qris">QRIS</option>
+        </select>
+
+        <button type="submit" class="btn">Konfirmasi Pesanan</button>
+      </form>
+    </main>
+
+    <footer>
+      <p>
+        📍 Jl. Bunisari No 188B, Bandung| 📞 0895-2466-0539| 📧
+        tokobungacake@email.com
+      </p>
+    </footer>
+
+    <script>
+      function updateJumlahKeranjang() {
+        const keranjang = JSON.parse(localStorage.getItem("keranjang")) || [];
+        const totalJumlah = keranjang.reduce(
+          (sum, item) => sum + item.jumlah,
+          0
+        );
+        const elemen = document.getElementById("keranjang-jumlah");
+        if (elemen) {
+          elemen.textContent = totalJumlah;
+        }
+      }
+
+      function tampilkanRingkasan() {
+        const keranjang = JSON.parse(localStorage.getItem("keranjang")) || [];
+        const box = document.getElementById("checkout-ringkasan");
+        let total = 0;
+
+        if (keranjang.length === 0) {
+          box.innerHTML = "<p>Keranjang kosong.</p>";
+          document.getElementById("checkout-total").style.display = "none";
+          return;
+        }
+
+        keranjang.forEach((item) => {
+          const itemDiv = document.createElement("div");
+          itemDiv.className = "item-keranjang";
+          itemDiv.innerHTML = `
+          <img src="${item.gambar}" alt="${item.nama}" />
+          <div class="info-item">
+            <h3>${item.nama}</h3>
+            <p>Rp ${item.harga.toLocaleString()} x ${item.jumlah}</p>
+          </div>
+        `;
+          box.appendChild(itemDiv);
+          total += item.harga * item.jumlah;
+        });
+
+        document.getElementById("total-belanja").textContent =
+          total.toLocaleString();
+      }
+
+      document
+        .getElementById("form-checkout")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+          alert("Pesanan dikonfirmasi! Terima kasih telah berbelanja 💖");
+          localStorage.removeItem("keranjang");
+          window.location.href = "index.html";
+        });
+
+      document.addEventListener("DOMContentLoaded", () => {
+        tampilkanRingkasan();
+        updateJumlahKeranjang();
+      });
+    </script>
+  </body>
+</html>

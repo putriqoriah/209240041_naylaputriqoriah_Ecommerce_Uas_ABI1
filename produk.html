@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Produk - Toko Bunga & Cake</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <div class="logo">Toko Bunga & Cake</div>
+
+      <input type="checkbox" id="menu-toggle" />
+      <label for="menu-toggle" class="hamburger">&#9776;</label>
+
+      <nav class="navbar">
+        <ul>
+          <li><a href="index.html">Home</a></li>
+          <li><a href="produk.html">Produk</a></li>
+          <li><a href="kontak.html">Kontak</a></li>
+          <li>
+            <a href="keranjang.html"
+              >Keranjang (<span id="cart-count">0</span>)</a
+            >
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <div class="filter-kategori">
+        <button data-filter="all">Semua</button>
+        <button data-filter="kue">Kue</button>
+        <button data-filter="bunga">Bunga</button>
+        <button data-filter="lainnya">Lainnya</button>
+      </div>
+
+      <!-- Daftar Produk -->
+      <section class="produk-container">
+        <div class="produk" data-kategori="kue">
+          <img src="Img_1.jpg" alt="Kue Coklat Lumer" />
+          <div class="deskripsi">
+            <h3>Kue Coklat Lumer</h3>
+            <p>Rp 150.000</p>
+            <a href="produk1.html" class="btn">Lihat Detail</a>
+          </div>
+        </div>
+
+        <!-- 2 -->
+        <div class="produk" data-kategori="kue">
+          <img src="Img_2.jpg" alt="Kue Ulang Tahun Pinky" />
+          <div class="deskripsi">
+            <h3>Kue Ulang Tahun Pinky</h3>
+            <p>Rp 175.000</p>
+            <a href="produk2.html" class="btn">Lihat Detail</a>
+          </div>
+        </div>
+
+        <!-- 3 -->
+        <div class="produk" data-kategori="kue">
+          <img src="Img_3.jpg" alt="Cupcake Ceria" />
+          <div class="deskripsi">
+            <h3>Cupcake Ceria</h3>
+            <p>Rp 80.000</p>
+            <a href="produk3.html" class="btn">Lihat Detail</a>
+          </div>
+        </div>
+
+        <!-- 4 -->
+        <div class="produk" data-kategori="bunga">
+          <img src="Img_4.jpg" alt="Bouquet Mawar Merah" />
+          <div class="deskripsi">
+            <h3>Bouquet Mawar Merah</h3>
+            <p>Rp 200.000</p>
+            <a href="produk4.html" class="btn">Lihat Detail</a>
+          </div>
+        </div>
+
+        <!-- 5 -->
+        <div class="produk" data-kategori="bunga">
+          <img src="Img_5.jpg" alt="Buket Bunga Campuran" />
+          <div class="deskripsi">
+            <h3>Buket Bunga Campuran</h3>
+            <p>Rp 320.000</p>
+            <a href="produk5.html" class="btn">Lihat Detail</a>
+          </div>
+        </div>
+
+        <!-- 6 -->
+        <div class="produk" data-kategori="kue">
+          <img src="Img_6.jpg" alt="Kue + Bunga Spesial" />
+          <div class="deskripsi">
+            <h3>Kue + Bunga Spesial</h3>
+            <p>Rp 320.000</p>
+            <a href="produk6.html" class="btn">Lihat Detail</a>
+          </div>
+        </div>
+
+        <!-- 7 -->
+        <div class="produk" data-kategori="lainnya">
+          <img src="Img_7.jpg" alt="Lilin Ulang Tahun" />
+          <div class="deskripsi">
+            <h3>Lilin Ulang Tahun</h3>
+            <p>Rp 25.000</p>
+            <a href="produk7.html" class="btn">Lihat Detail</a>
+          </div>
+        </div>
+
+        <!-- 8 -->
+        <div class="produk" data-kategori="lainnya">
+          <img src="Img_8.jpg" alt="Pita Dekoratif" />
+          <div class="deskripsi">
+            <h3>Pita Dekoratif</h3>
+            <p>Rp 15.000</p>
+            <a href="produk8.html" class="btn">Lihat Detail</a>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>
+        📍 Jl. Bunisari No 188B, Bandung| 📞 0895-2466-0539| 📧
+        tokobungacake@email.com
+      </p>
+    </footer>
+    <script>
+      function updateHarga() {
+        const select = document.getElementById("ukuran");
+        const harga = select.options[select.selectedIndex].dataset.harga;
+        document.getElementById("harga-produk").textContent =
+          "Rp " + Number(harga).toLocaleString();
+      }
+
+      function tambahKeKeranjang() {
+        const nama = "Kue Coklat Lumer";
+        const select = document.getElementById("ukuran");
+        const ukuran = select.value;
+        const harga = parseInt(
+          select.options[select.selectedIndex].dataset.harga
+        );
+
+        const item = { nama, ukuran, harga, jumlah: 1 };
+        let keranjang = JSON.parse(localStorage.getItem("keranjang")) || [];
+
+        const existing = keranjang.find(
+          (p) => p.nama === nama && p.ukuran === ukuran
+        );
+        if (existing) {
+          existing.jumlah += 1;
+        } else {
+          keranjang.push(item);
+        }
+
+        localStorage.setItem("keranjang", JSON.stringify(keranjang));
+        updateCartCount();
+        alert("Produk ditambahkan ke keranjang!");
+      }
+
+      function updateCartCount() {
+        const keranjang = JSON.parse(localStorage.getItem("keranjang")) || [];
+        const total = keranjang.reduce((sum, item) => sum + item.jumlah, 0);
+        document.getElementById("cart-count").textContent = total;
+      }
+
+      updateHarga();
+      updateCartCount();
+    </script>
+    <script>
+      // Hamburger toggle
+      function toggleMenu() {
+        const nav = document.getElementById("nav-menu");
+        nav.classList.toggle("active");
+      }
+
+      function updateCartCount() {
+        const keranjang = JSON.parse(localStorage.getItem("keranjang")) || [];
+        const total = keranjang.reduce((sum, item) => sum + item.jumlah, 0);
+        document.getElementById("cart-count").textContent = total;
+      }
+      updateCartCount();
+    </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        const filterButtons = document.querySelectorAll(
+          ".filter-kategori button"
+        );
+        const produkItems = document.querySelectorAll(".produk");
+
+        filterButtons.forEach((button) => {
+          button.addEventListener("click", () => {
+            const kategori = button.getAttribute("data-filter");
+            produkItems.forEach((item) => {
+              const itemKategori = item.getAttribute("data-kategori");
+              if (kategori === "all" || itemKategori === kategori) {
+                item.style.display = "block";
+              } else {
+                item.style.display = "none";
+              }
+            });
+          });
+        });
+      });
+    </script>
+  </body>
+</html>

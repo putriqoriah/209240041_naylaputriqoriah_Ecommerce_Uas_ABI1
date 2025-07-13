@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pita Kado Elegan - Toko Bunga & Cake</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <div class="grid-layout">
+      <header>
+        <div class="logo">Toko Bunga & Cake</div>
+
+        <input type="checkbox" id="menu-toggle" />
+        <label for="menu-toggle" class="hamburger">&#9776;</label>
+
+        <nav class="navbar">
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="produk.html">Produk</a></li>
+            <li><a href="kontak.html">Kontak</a></li>
+            <li>
+              <a href="keranjang.html"
+                >Keranjang (<span id="cart-count">0</span>)</a
+              >
+            </li>
+          </ul>
+        </nav>
+      </header>
+
+      <main>
+        <section class="detail-produk-grid">
+          <img src="Img_8.jpg" alt="Pita Kado Elegan" class="detail-img" />
+          <div class="detail-info">
+            <h2>Pita Kado Elegan</h2>
+            <p class="harga">Rp 15.000</p>
+            <p class="deskripsi">
+              Pita satin warna pink dan tosca, cocok untuk menghias kado, buket
+              bunga, atau hampers. Panjang 1 meter, lebar 3 cm.
+            </p>
+            <button
+              class="btn"
+              onclick="tambahKeKeranjang('kue1', 'Pita Kado Elegan', 15000, 'gambar/kue1.jpg')"
+            >
+              Beli
+            </button>
+          </div>
+        </section>
+      </main>
+
+      <footer>
+        <p>
+          📍 Jl. Bunisari No 188B, Bandung| 📞 0895-2466-0539| 📧
+          tokobungacake@email.com
+        </p>
+      </footer>
+    </div>
+    <script src="keranjang.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        updateJumlahKeranjang();
+      });
+    </script>
+    <script>
+      // Hamburger toggle
+      function toggleMenu() {
+        const nav = document.getElementById("nav-menu");
+        nav.classList.toggle("active");
+      }
+
+      // Update cart count
+      function updateCartCount() {
+        const cart = JSON.parse(localStorage.getItem("cart")) || [];
+        const total = cart.reduce((sum, item) => sum + item.quantity, 0);
+        const el = document.getElementById("cart-count");
+        if (el) el.textContent = total;
+      }
+
+      document.addEventListener("DOMContentLoaded", updateCartCount);
+    </script>
+  </body>
+</html>
